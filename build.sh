@@ -8,7 +8,7 @@ JDK25="/Users/xuqiran/Library/Application Support/hmcl/java/macos-x86_64/mojang-
 LIBRARY_ROOT="/Users/xuqiran/Downloads/.minecraft/libraries"
 PROCESSED_MODS="$INSTANCE_DIR/../.fabric/processedMods"
 BUILD_DIR="$PROJECT_DIR/build"
-OUTPUT_JAR="$INSTANCE_DIR/directors-cut-1.0.0+mc26.2.jar"
+OUTPUT_JAR="$INSTANCE_DIR/directors-cut-1.1.0+mc26.2.jar"
 
 if [[ ! -x "$JDK25/bin/javac" ]]; then
   print -u2 "Java 25 compiler not found at $JDK25"

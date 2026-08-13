@@ -38,6 +38,8 @@ public final class DirectorState {
     public long lastEventTick;
     public long cooldownUntil;
     public boolean debug;
+    public boolean hintsEnabled = true;
+    public String lastHint = "还没有值得留意的迹象。";
 
     public float currentHealth;
     public int currentFood;
@@ -128,6 +130,8 @@ public final class DirectorState {
         deaths = integer(properties, prefix + "deaths", 0);
         nearDeaths = integer(properties, prefix + "near_deaths", 0);
         sleeps = integer(properties, prefix + "sleeps", 0);
+        hintsEnabled = Boolean.parseBoolean(properties.getProperty(prefix + "hints", "true"));
+        lastHint = properties.getProperty(prefix + "last_hint", lastHint);
         northChainStage = integer(properties, prefix + "north_stage", 0);
         northOriginZ = decimal(properties, prefix + "north_z", 0);
         northChainExpiry = whole(properties, prefix + "north_expiry", 0);
@@ -149,6 +153,8 @@ public final class DirectorState {
         properties.setProperty(prefix + "deaths", Integer.toString(deaths));
         properties.setProperty(prefix + "near_deaths", Integer.toString(nearDeaths));
         properties.setProperty(prefix + "sleeps", Integer.toString(sleeps));
+        properties.setProperty(prefix + "hints", Boolean.toString(hintsEnabled));
+        properties.setProperty(prefix + "last_hint", lastHint);
         properties.setProperty(prefix + "north_stage", Integer.toString(northChainStage));
         properties.setProperty(prefix + "north_z", number(northOriginZ));
         properties.setProperty(prefix + "north_expiry", Long.toString(northChainExpiry));

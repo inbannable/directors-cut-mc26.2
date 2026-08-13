@@ -7,6 +7,8 @@ Build with `./build.sh`. The script uses HMCL's bundled Java 25 toolchain and wr
 
 Operator commands:
 
+- `/director hint` — replay the latest subtle clue
+- `/director hints on|off` — player preference, enabled by default
 - `/director status`
 - `/director events`
 - `/director event <id>`

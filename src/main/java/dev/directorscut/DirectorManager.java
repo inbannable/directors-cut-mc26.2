@@ -5,6 +5,7 @@ import dev.directorscut.event.EventContext;
 import dev.directorscut.event.EventRegistry;
 import dev.directorscut.event.EventScheduler;
 import dev.directorscut.event.EventUtil;
+import dev.directorscut.event.HintCatalog;
 import dev.directorscut.event.impl.BuiltInEvents;
 import dev.directorscut.state.DirectorPersonality;
 import dev.directorscut.state.DirectorState;
@@ -202,6 +203,7 @@ public final class DirectorManager {
                 default -> 4;
             };
             state.markEvent(tick, event.id(), event.uniquePerPlayer(), mysteryGain);
+            queueHint(context.player(), state, event.id());
             long cooldown = personality.baseCooldownTicks();
             if (event.major()) cooldown += 4_800;
             if (event.category() == dev.directorscut.event.EventCategory.MERCY) cooldown = Math.min(cooldown, 8_000);
@@ -298,6 +300,26 @@ public final class DirectorManager {
 
     public void schedule(long dueTick, Runnable action) {
         scheduled.add(new ScheduledAction(dueTick, action));
+    }
+
+    private void queueHint(ServerPlayer player, DirectorState state, String eventId) {
+        String hint = HintCatalog.hintFor(eventId, tick ^ player.getUUID().getLeastSignificantBits());
+        state.lastHint = hint;
+        if (!state.hintsEnabled) return;
+        UUID playerId = player.getUUID();
+        // Let the scene happen first. The clue should confirm a suspicion, not spoil the setup.
+        schedule(tick + 80, () -> {
+            if (server == null) return;
+            ServerPlayer online = server.getPlayerList().getPlayer(playerId);
+            if (online != null && state.hintsEnabled) {
+                online.sendOverlayMessage(Component.literal("直觉：" + hint));
+            }
+        });
+    }
+
+    public void showLastHint(ServerPlayer player) {
+        DirectorState state = state(player);
+        player.sendSystemMessage(Component.literal("直觉：" + state.lastHint));
     }
 
     public void registerFollower(Chicken chicken, ServerPlayer owner, long untilTick) {

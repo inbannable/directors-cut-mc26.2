@@ -5,6 +5,7 @@ import dev.directorscut.state.DirectorState;
 import dev.directorscut.state.MoodModel;
 import dev.directorscut.event.EventRegistry;
 import dev.directorscut.event.impl.BuiltInEvents;
+import dev.directorscut.event.HintCatalog;
 
 import java.util.Properties;
 import java.util.UUID;
@@ -74,5 +75,9 @@ public final class DirectorLogicTest {
         assert registry.get("mercy") != null;
         assert registry.get("gerald") != null;
         assert registry.get("perfect_view") != null;
+        for (var event : registry.all()) {
+            assert HintCatalog.hasHint(event.id()) : "missing hint for " + event.id();
+            assert !HintCatalog.hintFor(event.id(), 0).isBlank();
+        }
     }
 }
