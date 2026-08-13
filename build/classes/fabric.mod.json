@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "directors_cut",
+  "version": "1.0.0",
+  "name": "Director's Cut",
+  "description": "An invisible Director quietly turns survival into strange, funny, cinematic stories.",
+  "authors": ["Codex"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.directorscut.DirectorsCut"]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": ">=0.156.0"
+  }
+}
